@@ -105,7 +105,7 @@
             ],
             "tags": { },
             "properties": {
-                "value": "[parameters('AADSServerName')]",
+                "value": "[concat('\"', parameters('AADSServerName'),'\"')]" ,
                 "description": "Variable for Azure AD Connect Server Name",
                 "isEncrypted" : 0,
                 "type" : "string"
