@@ -11,13 +11,13 @@ New-AzureRmResourceGroup -Name MyAutomationResourceGroup -Location "West Europe"
 # 4. Test Deployment
 Test-AzureRmResourceGroupDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -AutomationAccountName "MyAutomationAccount" `
  -AAHybridWorkerCredentialName "AAHybridWorkerSvcAccount" -AAHybridWorkerDomain "MyDOMAIN" -AAHybridWorkerUserName "MySvc_HybridWorker" `
- -AAHybridWorkerPassword "MyPassword" -AADSServerName "MyAADSServer"
+ -AAHybridWorkerPassword (ConvertTo-SecureString "MyPassword" -AsPlainText -Force) -AADSServerName "MyAADSServer"
 
 # 5. Deploy with either of the following methods:
 # 5a. Deploy with Inline parameters
-New-AzureRmResourceGroupDeployment -Name ExampleDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -AutomationAccountName "MyAutomationAccount" `
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -AutomationAccountName "MyAutomationAccount" `
  -AAHybridWorkerCredentialName "AAHybridWorkerSvcAccount" -AAHybridWorkerDomain "MyDOMAIN" -AAHybridWorkerUserName "MySvc_HybridWorker" `
- -AAHybridWorkerPassword "MyPassword" -AADSServerName "MyAADSServer"
+ -AAHybridWorkerPassword (ConvertTo-SecureString "MyPassword" -AsPlainText -Force) -AADSServerName "MyAADSServer"
 
 # 5b. Deploy with Parameter object
 $parameters = @{
@@ -28,8 +28,8 @@ $parameters = @{
     "AAHybridWorkerPassword"="MyPassword"
     "AADSServerName"="MyAADSServer"
 }
-New-AzureRmResourceGroupDeployment -Name ExampleDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterObject $parameters
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterObject $parameters
 
 # 5c. Deploy with Parameter file
-New-AzureRmResourceGroupDeployment -Name ExampleDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterFile .\azuredeploy.parameters.json
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterFile .\azuredeploy.parameters.json
 
