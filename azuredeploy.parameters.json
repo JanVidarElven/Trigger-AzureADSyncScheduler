@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "AutomationAccountName": {
-      "value": "MyAutomationAccountName"
+      "value": "MyAutomationAccount"
     },
     "AADSServerName": {
-      "value": "MyAADSServerName"
+      "value": "MyAADSServer"
     },
     "AAHybridWorkerCredentialName": {
       "value": "AAHybridWorkerSvcAccount"
@@ -15,10 +15,10 @@
       "value": "MyDOMAIN"
     },
     "AAHybridWorkerUserName": {
-      "value": "MySAMAccountName"
+      "value": "MySvc_HybridWorker"
     },
     "AAHybridWorkerPassword": {
-      "value": "MyAccountPassword"
+      "value": "MyPassword"
     }
   }
 }
