@@ -32,7 +32,47 @@ A credential asset containing the DOMAIN\username and password for the run as ac
 
 ## Deployment instructions
 You can deploy this resource template with one of two methods:
-- Use the Deploy to Azure button above. This will launch a template deployment in your logged on Azure portal. See blog post for instructions and details.
+- Use the Deploy to Azure button above. This will launch a template deployment in the Azure portal you are logged in to. See blog post for instructions and details.
 - Deploy with Azure Resource Manager PowerShell. See below for instructions:
+
+### Deploy with PowerShell
+
+You can deploy this solution with AzureRM PowerShell CmdLets. I have included a PowerShell script with CmdLets for deploying, Deploy-AzureAutomationRunbook.ps1:
+
+1. Log in Azure account
+Add-AzureRmAccount
+
+2. If account has access to multiple subscriptions, set which to deploy to
+Set-AzureRmContext -SubscriptionID <YourSubscriptionId>
+
+3. Create a new resource group if you are not deploying to an existing one
+New-AzureRmResourceGroup -Name MyAutomationResourceGroup -Location "<Your Location>"
+
+4. Test Deployment
+Test-AzureRmResourceGroupDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -AutomationAccountName "MyAutomationAccount" `
+ -AAHybridWorkerCredentialName "AAHybridWorkerSvcAccount" -AAHybridWorkerDomain "MyDOMAIN" -AAHybridWorkerUserName "MySvc_HybridWorker" `
+ -AAHybridWorkerPassword (ConvertTo-SecureString "MyPassword" -AsPlainText -Force) -AADSServerName "MyAADSServer"
+
+5. Deploy with either of the following methods:
+6. Deploy with Inline parameters
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -AutomationAccountName "MyAutomationAccount" `
+ -AAHybridWorkerCredentialName "AAHybridWorkerSvcAccount" -AAHybridWorkerDomain "MyDOMAIN" -AAHybridWorkerUserName "MySvc_HybridWorker" `
+ -AAHybridWorkerPassword (ConvertTo-SecureString "MyPassword" -AsPlainText -Force) -AADSServerName "MyAADSServer"
+
+7. Deploy with Parameter object
+$parameters = @{
+    "AutomationAccountName"="MyAutomationAccount"
+    "AAHybridWorkerCredentialName"="AAHybridWorkerSvcAccount"
+    "AAHybridWorkerDomain"="MyDOMAIN"
+    "AAHybridWorkerUserName"="MySvc_HybridWorker"
+    "AAHybridWorkerPassword"="MyPassword"
+    "AADSServerName"="MyAADSServer"
+}
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterObject $parameters
+
+8. Deploy with Parameter file
+New-AzureRmResourceGroupDeployment -Name MyAutomationDeployment -ResourceGroupName MyAutomationResourceGroup -TemplateFile .\azuredeploy.json -TemplateParameterFile .\azuredeploy.parameters.json
+
+
 
  
